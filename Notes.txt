@@ -71,6 +71,7 @@ npm i datasource-sql
 npm i sequelize
 
 
+D:\Locon\B2BPanel_poc\graphql-server-locon>node index
 
 https://studio.apollographql.com/sandbox/explorer
 

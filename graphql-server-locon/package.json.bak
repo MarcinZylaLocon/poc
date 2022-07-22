@@ -1,0 +1,23 @@
+{
+	"type": "module",
+	"name": "graphql-server-locon",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@babel/polyfill": "^7.12.1",
+		"apollo-server": "^3.10.0",
+		"body-parser": "^1.20.0",
+		"datasource-sql": "^2.0.1",
+		"express": "^4.18.1",
+		"graphql": "^16.5.0",
+		"pg": "^8.7.3",
+		"sequelize": "^6.21.3"
+	}
+}

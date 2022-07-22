@@ -1,0 +1,72 @@
+CREATE USER locon WITH PASSWORD 'locon';
+GRANT ALL PRIVILEGES ON DATABASE locon_test_1 TO locon;
+GRANT ALL PRIVILEGES ON DATABASE locon_test_2 TO locon;
+// + w postgre przypisac go do roli postres
+
+INSERT INTO public."Customer"(
+	id, name, email)
+	VALUES (1,'Gdańsk','1@gdansk.pl');
+	
+INSERT INTO public."Customer"(
+	id, name, email)
+	VALUES (2,'Sopot','2@sopot.pl');
+	
+INSERT INTO public."Customer"(
+	id, name, email)
+	VALUES (3,'Gdynia','3@gdynia.pl');
+	
+	
+	
+do $$
+begin
+for r in 1..1000 loop
+INSERT INTO public."User"(
+	id, username, password, type, name, "customerId")
+	VALUES (r,concat('User_',r),concat('Password_',r),'Admin',r,r%3);
+end loop;
+end;
+$$;
+
+UPDATE public."User"
+	SET "customerId"=3
+	WHERE "customerId"=0
+
+
+do $$
+begin
+for r in 1..10000 loop
+INSERT INTO public."Device"(
+	"deviceId", "customerId", "userId", "caregiverGroupId", "adminGroupId", firstname, lastname)
+	VALUES (r, r%3, r%1000, 0, 0, concat('Imie_',r),concat('Nazwisko_',r));
+end loop;
+end;
+$$;
+
+UPDATE public."Device"
+	SET "customerId"=3
+	WHERE "customerId"=0
+
+do $$
+begin
+for r in 1..5000 loop
+INSERT INTO public."DeviceGroup"(
+	id, "customerId", "userId", name, type)
+	VALUES (r, r%3, r%1000, concat('Imie_',r),(select (array['ADMIN_GROUP', 'CAREGIVER_GROUP'])[floor(random() * 2 + 1)]));
+end loop;
+end;
+$$;
+
+UPDATE public."DeviceGroup"
+	SET "customerId"=3
+	WHERE "customerId"=0
+
+
+
+
+
+
+
+https://www.apollographql.com/docs/apollo-server/data/data-sources#open-source-implementations
+npm i datasource-sql
+npm i sequelize
+

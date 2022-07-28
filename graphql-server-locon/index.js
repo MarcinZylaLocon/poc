@@ -1,6 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./schema_customer");
-const UserDatabase = require("./UserDatabaseQueries");
+const {UserDatabase, DeviceDatabase} = require("./UserDatabaseQueries");
 const resolvers = require("./resolver");
 
 const knexConfig1 = {
@@ -25,12 +25,13 @@ const knexConfig2 = {
 };
 
 const ud = new UserDatabase(knexConfig2);
+const dd = new DeviceDatabase(knexConfig1);
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => ({
-        ud
+        ud, dd
     }),
 });
 

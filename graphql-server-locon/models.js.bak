@@ -1,7 +1,0 @@
-let customerdata = [{
-    id: 1,
-    name: 'name',
-    email: 'a@a.a',
-}];
-
-module.exports = { customerdata };

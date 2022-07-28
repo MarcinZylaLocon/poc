@@ -22,7 +22,6 @@ const typeDefs = gql`
 		adminGroupId: Int
         firstname: String
         lastname: String
-		deviceGroup: DeviceGroup
     }
     type DeviceGroup {
         id: ID

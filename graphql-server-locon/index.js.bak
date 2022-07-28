@@ -1,6 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./schema_customer");
-const UserDatabase = require("./UserDatabaseQueries");
+const {UserDatabase, DeviceDatabase} = require("./UserDatabaseQueries");
 const resolvers = require("./resolver");
 
 const knexConfig1 = {
@@ -8,8 +8,8 @@ const knexConfig1 = {
   connection: {
     host : 'localhost',
 	port : 5432,
-	user : 'postgres',
-	password : 'Metallica10',
+	user : 'locon',
+	password : 'locon',
 	database : 'locon_test_1'
   }
 };
@@ -18,19 +18,20 @@ const knexConfig2 = {
   connection: {
     host : 'localhost',
 	port : 5432,
-	user : 'postgres',
-	password : 'Metallica10',
+	user : 'locon',
+	password : 'locon',
 	database : 'locon_test_2'
   }
 };
 
 const ud = new UserDatabase(knexConfig2);
+const dd = new DeviceDatabase(knexConfig1);
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => ({
-        ud
+        dd
     }),
 });
 

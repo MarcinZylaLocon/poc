@@ -13,7 +13,7 @@ class UserDatabase extends SQLDataSource {
 class DeviceDatabase extends SQLDataSource {
 	getDevicesWithGroups(deviceId) {
         return this.knex
-            .select("d.deviceId as device_id", "*")
+            .select("d.id as device_id", "*")
             .from("Device AS d")
             .join("DeviceGroup AS dg ", "d.customerId", "dg.customerId")
            .where("d.deviceId", "=", deviceId);

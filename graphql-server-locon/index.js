@@ -1,6 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./schema_customer");
-const {UserDatabase, DeviceDatabase} = require("./UserDatabaseQueries");
+const {UserDatabase, DeviceDatabase} = require("./DatabaseQueries");
 const resolvers = require("./resolver");
 
 const knexConfig1 = {

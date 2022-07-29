@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
     type User {
-        user_id: ID!
+        user_id: ID
         username: String
         password: String
 		type: String
@@ -15,7 +15,7 @@ const typeDefs = gql`
         email: String
     }
 	type Device {
-        device_id: ID!
+        device_id: ID
 		customerId: Int
 		userId: Int
 		caregiverGroupId: Int
@@ -25,15 +25,22 @@ const typeDefs = gql`
 		deviceGroup: DeviceGroup
     }
     type DeviceGroup {
-        id: ID
+        devicegroup_id: ID
 		customerId: Int
 		userId: Int
         name: String
         type: String
     }
+	type Combo {
+		device_id: ID
+        comboDevice: Device
+        comboUser: User
+	}
     type Query {
-        users(userId: ID!): [User]
+        user(userId: ID!): [User]
+        users(userIds: [ID]): [User]
         devices(deviceId: ID!): [Device]
+        combo(deviceId: ID!): [Combo]
     }
 `;
 

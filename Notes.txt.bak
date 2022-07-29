@@ -76,53 +76,12 @@ D:\Locon\B2BPanel_poc\graphql-server-locon>node index
 https://studio.apollographql.com/sandbox/explorer
 
 {
-  user(userId: 11) {
+  users(userId: 10) {
     user_id
     username
     customer{
       cust_id
       email
-    }
-  } 
-}
-
-{
-  users(userIds: [1,4,7]) {
-    user_id
-    username
-    customer{
-      cust_id
-      email
-    }
-  } 
-}
-
-{
-  devices(deviceId: 1) {
-      device_id
-      customerId
-      userId
-      deviceGroup{
-        devicegroup_id
-        name
-        type
-      
-    }
-  } 
-}
-
-{
-  combo(deviceId: 6) {
-    device_id
-    comboDevice {
-      device_id
-      firstname
-      lastname
-    }
-    comboUser {
-      user_id
-      username
-      password
     }
   } 
 }

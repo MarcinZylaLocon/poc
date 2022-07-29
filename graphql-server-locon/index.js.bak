@@ -31,7 +31,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => ({
-        dd
+        ud, dd
     }),
 });
 

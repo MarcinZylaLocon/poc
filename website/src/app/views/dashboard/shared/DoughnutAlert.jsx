@@ -2,7 +2,7 @@ import React from 'react'
 import { useTheme } from '@mui/system'
 import ReactEcharts from 'echarts-for-react'
 
-const DoughnutChart = ({ height, color = [] }) => {
+const DoughnutChartAlert = ({ height, color = [] }) => {
     const theme = useTheme()
 
     const option = {
@@ -57,7 +57,7 @@ const DoughnutChart = ({ height, color = [] }) => {
                         show: false,
                         position: 'center', // shows the description data to center, turn off to show in right side
                         textStyle: {
-                            color: theme.palette.text.secondary,
+                            color: theme.palette.text.primary,
                             fontSize: 13,
                             fontFamily: 'roboto',
                         },
@@ -81,13 +81,13 @@ const DoughnutChart = ({ height, color = [] }) => {
                 data: [
                     {
                         value: 65,
-                        name: 'Locon Watch',
+                        name: 'Zakrożenie',
                     },
                     {
                         value: 20,
-                        name: 'Locon Pet',
+                        name: 'Uwaga',
                     },
-                    { value: 15, name: 'Locon Car' },
+                    { value: 15, name: 'Prawidlowo' },
                 ],
                 itemStyle: {
                     emphasis: {
@@ -111,4 +111,4 @@ const DoughnutChart = ({ height, color = [] }) => {
     )
 }
 
-export default DoughnutChart
+export default DoughnutChartAlert

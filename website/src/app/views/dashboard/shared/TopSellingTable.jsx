@@ -64,10 +64,10 @@ const TopSellingTable = () => {
   return (
     <Card elevation={3} sx={{ pt: '20px', mb: 3 }}>
       <CardHeader>
-        <Title>top selling products</Title>
+        <Title>Najpilniejsze zgłoszenia</Title>
         <Select size="small" defaultValue="this_month">
-          <MenuItem value="this_month">This Month</MenuItem>
-          <MenuItem value="last_month">Last Month</MenuItem>
+          <MenuItem value="this_month">Dziś</MenuItem>
+          <MenuItem value="last_month">Wczoraj</MenuItem>
         </Select>
       </CardHeader>
 
@@ -76,16 +76,16 @@ const TopSellingTable = () => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ px: 3 }} colSpan={4}>
-                Name
+                Użytkownik
               </TableCell>
               <TableCell sx={{ px: 0 }} colSpan={2}>
-                Revenue
+                Nazwa
               </TableCell>
               <TableCell sx={{ px: 0 }} colSpan={2}>
-                Stock Status
+                Status
               </TableCell>
               <TableCell sx={{ px: 0 }} colSpan={1}>
-                Action
+                Akcje
               </TableCell>
             </TableRow>
           </TableHead>
@@ -101,19 +101,13 @@ const TopSellingTable = () => {
                 </TableCell>
 
                 <TableCell align="left" colSpan={2} sx={{ px: 0, textTransform: 'capitalize' }}>
-                  ${product.price > 999 ? (product.price / 1000).toFixed(1) + 'k' : product.price}
+                  {product.alert}
                 </TableCell>
 
                 <TableCell sx={{ px: 0 }} align="left" colSpan={2}>
-                  {product.available ? (
-                    product.available < 20 ? (
-                      <Small bgcolor={bgSecondary}>{product.available} available</Small>
-                    ) : (
-                      <Small bgcolor={bgPrimary}>in stock</Small>
-                    )
-                  ) : (
-                    <Small bgcolor={bgError}>out of stock</Small>
-                  )}
+                  {product.alertstatus == 1 ? <Small bgcolor={bgPrimary}>Prawidłowo</Small> : ""}
+                  {product.alertstatus == 2 ? <Small bgcolor={bgSecondary}>Uwaga</Small> : ""}
+                  {product.alertstatus == 3 ? <Small bgcolor={bgError}>Zagrożenie</Small> : ""}
                 </TableCell>
 
                 <TableCell sx={{ px: 0 }} colSpan={1}>
@@ -132,34 +126,34 @@ const TopSellingTable = () => {
 
 const productList = [
   {
-    imgUrl: '/assets/images/products/headphone-2.jpg',
-    name: 'earphone',
-    price: 100,
-    available: 15,
+    imgUrl: '/assets/images/face-1.jpg',
+    name: 'Daniel Daniel',
+    alert: 'Poza strefa',
+    alertstatus: 2,
   },
   {
-    imgUrl: '/assets/images/products/headphone-3.jpg',
-    name: 'earphone',
-    price: 1500,
-    available: 30,
+    imgUrl: '/assets/images/face-2.jpg',
+    name: 'Marek Marek',
+    alert: 'SOS',
+    alertstatus: 3,
   },
   {
-    imgUrl: '/assets/images/products/iphone-2.jpg',
-    name: 'iPhone x',
-    price: 1900,
-    available: 35,
+    imgUrl: '/assets/images/face-3.jpg',
+    name: 'Wojtek Wojtek',
+    alert: 'Poza strefa',
+    alertstatus: 2,
   },
   {
-    imgUrl: '/assets/images/products/iphone-1.jpg',
-    name: 'iPhone x',
-    price: 100,
-    available: 0,
+    imgUrl: '/assets/images/face-4.jpg',
+    name: 'Ewa Ewa',
+    alert: 'Zagrożenie',
+    alertstatus: 3,
   },
   {
-    imgUrl: '/assets/images/products/headphone-3.jpg',
-    name: 'Head phone',
-    price: 1190,
-    available: 5,
+    imgUrl: '/assets/images/face-5.jpg',
+    name: 'Weronika Weronika',
+    alert: 'Potwierdzenie',
+    alertstatus: 1,
   },
 ];
 

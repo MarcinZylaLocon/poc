@@ -51,18 +51,8 @@ const RowCards = () => {
           <Grid item md={5} xs={7}>
             <Box display="flex" alignItems="center">
               <Checkbox />
-              <Hidden smDown>
-                {id % 2 === 1 ? (
-                  <StarOutline size="small">
-                    <Icon>star_outline</Icon>
-                  </StarOutline>
-                ) : (
-                  <DateRange size="small">
-                    <Icon>date_range</Icon>
-                  </DateRange>
-                )}
-              </Hidden>
-              <ProjectName>Project {id}</ProjectName>
+              <StyledAvatar src="/assets/images/face-4.jpg" />
+              <ProjectName>Opiekun {id}</ProjectName>
             </Box>
           </Grid>
 
@@ -73,10 +63,7 @@ const RowCards = () => {
           <Hidden smDown>
             <Grid item xs={3}>
               <Box display="flex" position="relative" marginLeft="-0.875rem !important">
-                <StyledAvatar src="/assets/images/face-4.jpg" />
-                <StyledAvatar src="/assets/images/face-4.jpg" />
-                <StyledAvatar src="/assets/images/face-4.jpg" />
-                <StyledAvatar sx={{ fontSize: '14px' }}>+3</StyledAvatar>
+                Podopieczni: {id}
               </Box>
             </Grid>
           </Hidden>

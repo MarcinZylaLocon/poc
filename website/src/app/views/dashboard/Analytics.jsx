@@ -2,6 +2,7 @@ import { Card, Grid, styled, useTheme } from '@mui/material';
 import { Fragment } from 'react';
 import Campaigns from './shared/Campaigns';
 import DoughnutChart from './shared/Doughnut';
+import DoughnutChartAlert from './shared/DoughnutAlert';
 import RowCards from './shared/RowCards';
 import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
@@ -45,18 +46,29 @@ const Analytics = () => {
             <TopSellingTable />
             <StatCards2 />
 
-            <H4>Ongoing Projects</H4>
+            <H4>Opiekunowie</H4>
             <RowCards />
           </Grid>
 
           <Grid item lg={4} md={4} sm={12} xs={12}>
             <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Traffic Sources</Title>
-              <SubTitle>Last 30 days</SubTitle>
+              <Title>Przychodzące mierniki</Title>
+              <SubTitle>Z ostatniego miesiaca</SubTitle>
 
               <DoughnutChart
                 height="300px"
                 color={[palette.primary.dark, palette.primary.main, palette.primary.light]}
+              />
+
+            </Card>
+
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <Title>Typy alertów</Title>
+              <SubTitle>W ostatnim tygodniu</SubTitle>
+
+              <DoughnutChartAlert
+                height="300px"
+                color={[palette.error.main, palette.secondary.main, palette.primary.main]}
               />
             </Card>
 

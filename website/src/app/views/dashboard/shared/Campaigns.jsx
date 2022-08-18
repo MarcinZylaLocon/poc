@@ -5,25 +5,25 @@ import { Small } from 'app/components/Typography';
 const Campaigns = () => {
   return (
     <Box>
-      <SimpleCard title="Campaigns">
-        <Small color="text.secondary">Today</Small>
-        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
-        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
-        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+      <SimpleCard title="Ilość zgłoszeń">
+        <Small color="text.secondary">Dziś</Small>
+        <MatxProgressBar value={60} color="primary" text="Locon Watch (102k)" />
+        <MatxProgressBar value={45} color="secondary" text="Locon Pet (40k)" />
+        <MatxProgressBar value={90} color="error" text="Locon GPS (180k)" />
 
         <Small color="text.secondary" display="block" pt={4}>
           Yesterday
         </Small>
-        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
-        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
-        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+        <MatxProgressBar value={60} color="primary" text="Locon Watch (102k)" />
+        <MatxProgressBar value={45} color="secondary" text="Locon Pet (40k)" />
+        <MatxProgressBar value={90} color="error" text="Locon GPS (180k)" />
 
         <Small color="text.secondary" display="block" pt={4}>
-          Yesterday
+          Przedwczoraj
         </Small>
-        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
-        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
-        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+        <MatxProgressBar value={60} color="primary" text="Locon Watch (102k)" />
+        <MatxProgressBar value={45} color="secondary" text="Locon Pet (40k)" />
+        <MatxProgressBar value={90} color="error" text="Locon GPS (180k)" />
       </SimpleCard>
     </Box>
   );

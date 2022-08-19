@@ -2,17 +2,15 @@ module.exports = {
     Query: {
         user: (_, { userId }, { dataSources }) => dataSources.ud.getUsersWithClients(userId),
         users: (_, { userIds }, { dataSources }) => dataSources.ud.getUsers(userIds),
-		devices:  async (_, { deviceId }, { dataSources }) => {
-			const devi = await dataSources.dd.getDevicesWithGroups(deviceId);
+		devices:  async (_, { deviceIds }, { dataSources }) => {
+			const devi = await dataSources.dd.getDevicesWithGroups(deviceIds);
 			return devi;
 			
 			},
-		combo: async (_, { deviceId, userId }, { dataSources }) => {
-			
+		combo: async (_, { deviceIds }, { dataSources }) => {
 			const comboData = [];
 			
-			//it returns 2 items (logically should 1, but this is for test purposes)
-			const devicesResp = await dataSources.dd.getDevicesWithGroups(deviceId);
+			const devicesResp = await dataSources.dd.getDevicesWithGroups(deviceIds);
 
 			const userIds = devicesResp.map(dr => dr.userId);
 			const usersResp = await dataSources.ud.getUsers(userIds);

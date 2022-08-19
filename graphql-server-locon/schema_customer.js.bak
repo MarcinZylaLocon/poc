@@ -38,7 +38,7 @@ const typeDefs = gql`
 	}
     type Query {
         user(userId: ID!): [User]
-        users(userId: [ID]): [User]
+        users(userIds: [ID]): [User]
         devices(deviceId: ID!): [Device]
         combo(deviceId: ID!): [Combo]
     }

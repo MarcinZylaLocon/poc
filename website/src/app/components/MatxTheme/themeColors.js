@@ -64,7 +64,7 @@ export const themeColors = {
     palette: {
       type: 'dark',
       primary: {
-        main: '#222A45',
+        main: '#4cc6e3',
         contrastText: '#ffffff',
       },
       secondary: {
@@ -73,7 +73,7 @@ export const themeColors = {
       },
       error: errorColor,
       background: {
-        paper: '#222A45',
+        paper: '#4cc6e3',
         default: '#1a2038',
       },
       text: textDark,
@@ -92,7 +92,7 @@ export const themeColors = {
       },
       error: errorColor,
       background: {
-        paper: '#222A45',
+        paper: '#4cc6e3',
         default: '#1a2038',
       },
       text: textDark,
@@ -146,7 +146,7 @@ export const themeColors = {
       },
       error: errorColor,
       background: {
-        paper: '#222A45',
+        paper: '#4cc6e3',
         default: '#1a2038',
       },
       text: textDark,
@@ -165,7 +165,7 @@ export const themeColors = {
       },
       error: errorColor,
       background: {
-        paper: '#222A45',
+        paper: '#4cc6e3',
         default: '#1a2038',
       },
       text: textDark,
@@ -203,7 +203,7 @@ export const themeColors = {
       },
       error: errorColor,
       background: {
-        paper: '#222A45',
+        paper: '#4cc6e3',
         default: '#1a2038',
       },
       text: textDark,

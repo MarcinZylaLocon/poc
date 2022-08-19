@@ -2,12 +2,13 @@ import { Box, styled } from '@mui/material';
 import { MatxLogo } from 'app/components';
 import useSettings from 'app/hooks/useSettings';
 import { Span } from './Typography';
+import logo from '../views/locon/logo.webp';
 
 const BrandRoot = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '20px 18px 20px 29px',
+  padding: '20px 18px 40px 29px',
 }));
 
 const StyledSpan = styled(Span)(({ mode }) => ({
@@ -24,10 +25,7 @@ const Brand = ({ children }) => {
   return (
     <BrandRoot>
       <Box display="flex" alignItems="center">
-        <MatxLogo />
-        <StyledSpan mode={mode} className="sidenavHoverShow">
-          Matx
-        </StyledSpan>
+        <img src={logo}></img>
       </Box>
 
       <Box className="sidenavHoverShow" sx={{ display: mode === 'compact' ? 'none' : 'block' }}>

@@ -2,32 +2,18 @@ module.exports = {
     Query: {
         user: (_, { userId }, { dataSources }) => dataSources.ud.getUsersWithClients(userId),
         users: (_, { userIds }, { dataSources }) => dataSources.ud.getUsers(userIds),
-			
-		// devices: (_, { deviceId }, { dataSources }) => {
-			
-			// const aaa = dataSources.dd.getDevicesWithGroups(deviceId).then(aaa => {
-				// console.log(aaa);
-			// return aaa;
-			// });
-			
-			// },
-		devices:  async (_, { deviceId }, { dataSources }) => {
-			
-			const devi = await dataSources.dd.getDevicesWithGroups(deviceId);
+		devices:  async (_, { deviceIds }, { dataSources }) => {
+			const devi = await dataSources.dd.getDevicesWithGroups(deviceIds);
 			return devi;
 			
 			},
-					
-		combo: async (_, { deviceId, userId }, { dataSources }) => {
-			
+		combos: async (_, { deviceIds }, { dataSources }) => {
 			const comboData = [];
 			
-			//it returns 2 items (logically should 1, but this is for test purposes)
-			const devicesResp = await dataSources.dd.getDevicesWithGroups(deviceId);
+			const devicesResp = await dataSources.dd.getDevicesWithGroups(deviceIds);
 
 			const userIds = devicesResp.map(dr => dr.userId);
 			const usersResp = await dataSources.ud.getUsers(userIds);
-								
 		
 			devicesResp.forEach(comboDevice => {
 				const comboUser = usersResp.find(thisUser => thisUser.user_id == comboDevice.userId && thisUser.customerId == comboDevice.customerId);
@@ -38,27 +24,8 @@ module.exports = {
 					device_id: comboDevice.device_id,
 					comboDevice,
 					comboUser
-			})}
+				})}
 			});
-					
-			
-			
-			// const comboDevice = {
-				// device_id: 1,
-				// firstname: 2,
-				// lastname: 3
-			// }
-			// const comboUser = {
-				// user_id: 4,
-				 // username: 5,
-				 // password: 6
-			// }
-			// comboData.push({
-				// device_id: 123456,
-				// comboDevice,
-				// comboUser
-			// });
-			console.log(comboData.at(0));
 			return comboData;
 		},
     },

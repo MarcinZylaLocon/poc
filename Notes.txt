@@ -70,8 +70,13 @@ https://www.apollographql.com/docs/apollo-server/data/data-sources#open-source-i
 npm i datasource-sql
 npm i sequelize
 
+http://demos.ui-lib.com/matx-react-doc/
 
 D:\Locon\B2BPanel_poc\graphql-server-locon>node index
+D:\Locon\B2BPanel_poc\website>npm start
+
+npm install @apollo/client graphql
+
 
 https://studio.apollographql.com/sandbox/explorer
 
@@ -98,7 +103,7 @@ https://studio.apollographql.com/sandbox/explorer
 }
 
 {
-  devices(deviceId: 1) {
+  devices(deviceIds: [1,2]) {
       device_id
       customerId
       userId
@@ -112,7 +117,7 @@ https://studio.apollographql.com/sandbox/explorer
 }
 
 {
-  combo(deviceId: 6) {
+  combo(deviceIds: [1,2,3,4,5,6]) {
     device_id
     comboDevice {
       device_id

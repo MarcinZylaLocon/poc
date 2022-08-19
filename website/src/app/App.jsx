@@ -7,17 +7,30 @@ import { SettingsProvider } from './contexts/SettingsContext';
 import { Store } from './redux/Store';
 import routes from './routes';
 
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
+import Locon from './views/locon/Locon';
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000",
+  cache: new InMemoryCache(),
+});
+
 const App = () => {
   const content = useRoutes(routes);
 
   return (
     <Provider store={Store}>
       <SettingsProvider>
+      <ApolloProvider client={client}>
         <MatxTheme>
           <AuthProvider>{content}</AuthProvider>
         </MatxTheme>
+    </ApolloProvider>
       </SettingsProvider>
+      
     </Provider>
+    
   );
 };
 

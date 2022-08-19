@@ -1,16 +1,82 @@
 import { Card, Grid, styled, useTheme } from '@mui/material';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { Button } from '@mui/material';
 import { Fragment } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community'
 import '@inovua/reactdatagrid-community/index.css'
+
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 
 import NumberFilter from '@inovua/reactdatagrid-community/NumberFilter'
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter'
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter'
 
+const DEVICE_QUERY = gql`
+query Combo($id: [ID!]) {
+  combo(deviceIds: $id) {
+    device_id
+    comboDevice {
+      device_id
+      firstname
+      lastname
+    }
+    comboUser {
+      user_id
+      username
+      password
+    }
+  } 
+}
+`;
+
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
   [theme.breakpoints.down('sm')]: { margin: '16px' },
 }));
+
+
+
+
+
+// const columns = [
+//   { name: 'device_id', header: <b>{icon} ID</b>, defaultFlex: 1 },
+//   { name: 'comboUser.user_id', header: 'User ID', defaultFlex: 1, type: 'number', filterEditor: NumberFilter },
+//   { name: 'comboUser.username', header: 'User Name', defaultFlex: 1 },
+//   { name: 'comboUser.password', header: 'Password', defaultFlex: 1 },
+//   { name: 'comboDevice.firstname', header: 'First Name', defaultFlex: 1 },
+//   { name: 'comboDevice.lastname', header: 'last Name', defaultFlex: 1 },
+// ]
+
+let dataSource = [
+  // { "comboUser.user_id": 1, "comboUser.username": 'John Grayner', device_id: 35, uniqueId: 10 },
+  // { "comboUser.user_id": 2, "comboUser.username": 'Mary Stones', device_id: 25, uniqueId: 20 },
+  // { "comboUser.user_id": 3, "comboUser.username": 'Robert Fil', device_id: 27, uniqueId: 30 },
+  // { "comboUser.user_id": 4, "comboUser.username": 'Roger Bobson', device_id: 81, uniqueId: 40 },
+  // { "comboUser.user_id": 5, "comboUser.username": 'Billary Konwik', device_id: 18, uniqueId: 50 },
+  // { "comboUser.user_id": 6, "comboUser.username": 'Bob Martin', device_id: 18, uniqueId: 60 },
+  // { "comboUser.user_id": 7, "comboUser.username": 'Matthew Richardson', device_id: 54, uniqueId: 70 },
+  // { "comboUser.user_id": 8, "comboUser.username": 'Richy Peterson', device_id: 54, uniqueId: 80 },
+  // { "comboUser.user_id": 9, "comboUser.username": 'Bryan Martin', device_id: 40, uniqueId: 90}
+]
+
+const filterValue = [
+  { name: 'comboUser.username', operator: 'startsWith', type: 'string', value: '' },
+  { name: 'comboUser.user_id', operator: 'gte', type: 'number' }
+];
+
+const flattenObject = (obj, parentKey = '') => {
+  if (parentKey !== '') parentKey += '.';
+  let flattened = {};
+  Object.keys(obj).forEach((key) => {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+          Object.assign(flattened, flattenObject(obj[key], parentKey + key))
+      } else {
+          flattened[parentKey + key] = obj[key]
+      }
+  })
+  return flattened;
+}
 
 const gridStyle = { minHeight: 300 }
 
@@ -19,41 +85,158 @@ const icon = <svg key="icon" fill="#9ba7b4" style={{ verticalAlign: 'middle' }} 
   <path d="M0 0h24v24H0z" fill="none"/>
 </svg>
 
-const columns = [
-  { name: 'name', header: <b>{icon} Full Name</b>, defaultFlex: 1 },
-  { name: 'age', header: 'Age', defaultFlex: 1, type: 'number', filterEditor: NumberFilter }
-]
+let STORE = {
+    columns: [
+        { name: 'device_id',              header: <b>{icon} ID</b>,   defaultFlex: 1, visible: true },
+        { name: 'comboUser.user_id',      header: 'User ID',          defaultFlex: 1, visible: true, type: 'number', filterEditor: NumberFilter },
+        { name: 'comboUser.username',     header: 'User Name',        defaultFlex: 1, visible: true },
+        { name: 'comboUser.password',     header: 'Password',         defaultFlex: 1, visible: true },
+        { name: 'comboDevice.firstname',  header: 'First Name',       defaultFlex: 1, visible: true },
+        { name: 'comboDevice.lastname',   header: 'last Name',        defaultFlex: 1, visible: true },
+    ],
+    sortInfo: [],
+    reservedViewportWidth: 0,
+    columnOrder: ['device_id','comboUser.user_id','comboUser.username','comboUser.password','comboDevice.firstname','comboDevice.lastname']
+  }
 
-const dataSource = [
-  { name: 'John Grayner', age: 35, uniqueId: 1 },
-  { name: 'Mary Stones', age: 25, uniqueId: 2 },
-  { name: 'Robert Fil', age: 27, uniqueId: 3 },
-  { name: 'Roger Bobson', age: 81, uniqueId: 4 },
-  { name: 'Billary Konwik', age: 18, uniqueId: 5 },
-  { name: 'Bob Martin', age: 18, uniqueId: 6 },
-  { name: 'Matthew Richardson', age: 54, uniqueId: 7 },
-  { name: 'Richy Peterson', age: 54, uniqueId: 8 },
-  { name: 'Bryan Martin', age: 40, uniqueId: 9}
-]
+  //here is one column filtering. Other have to be added
+const sort = (arr, sortInfoList) => {
+    arr = [].concat(arr)
+    let sortInfo;
+    if(sortInfoList.length>0){
+      sortInfo = sortInfoList[0];
+    }
+    else return arr;
 
-const filterValue = [
-  { name: 'name', operator: 'startsWith', type: 'string', value: '' },
-  { name: 'age', operator: 'gte', type: 'number' }
-];
+    if (!sortInfo) {
+      return arr
+    }
+    return arr.sort((o1, o2) => {
+      const v1 = o1[sortInfo.name]
+      const v2 = o2[sortInfo.name]
+  
+      const result = sortInfo.type == 'number'
+        ? v1 - v2
+        : v1.localeCompare(v2)
+  
+      return result * sortInfo.dir
+    })
+  }
 
 const Locon = () => {
+  const [gridState, setGridState] = React.useState(dataSource);
+  const initialState = Object.assign({}, STORE, {
+    loading: false,
+    dataSource: []
+  });
+  const [state, setState] = useState(initialState);
+
+  const [getDevices, { loading, error, data }] = useLazyQuery(DEVICE_QUERY, {
+    //TODO: insert parameters with devices
+    variables: { id: [1,2,3,4,5,6] },
+    onCompleted: (data) => {
+      if (data) {
+        let normalizeDS = data.combo.map(o => flattenObject(o))
+        setGridState(sort(normalizeDS, state.sortInfo));
+      }
+    },
+  });
+
+  const saveState = () => {
+    STORE = {
+      reservedViewportWidth: state.reservedViewportWidth,
+      columnOrder: state.columnOrder,
+      columns: state.columns,
+      sortInfo: state.sortInfo
+    }
+    setState(Object.assign({}, state, {
+      savedState: JSON.stringify(STORE, null, 2)
+    }))
+  }
+
+  const restoreState = () => {
+    setState(Object.assign({}, state, Object.assign({}, STORE, {
+      savedState: null
+    })));
+  }
+
+  const onSortInfoChange = (sortInfo) => {
+    setState(Object.assign({}, state, { sortInfo }));
+
+    setGridState(sort(gridState, sortInfo));
+  }
+
+  const onColumnOrderChange = (columnOrder) => {
+    setState(Object.assign({}, state, {
+      columnOrder
+    }));
+  }
+
+  const onColumnVisibleChange = ({column, visible}) => {
+    const colsMap = state.columns.reduce((p, c) => {
+      p[column.name] = { visible }
+      return p
+    }, {})
+
+    const columns = state.columns.map(c => {
+      if(c.name == c.name){
+        return Object.assign({}, c, colsMap[c.name])
+      }
+      return Object.assign({}, c, c)
+    })
+
+    setState(Object.assign({}, state, {
+      columns,
+    }));
+  }
+
+  const onBatchColumnResize = (batchColumnInfo, {reservedViewportWidth}) => {
+    const colsMap = batchColumnInfo.reduce((acc, colInfo) => {
+      const { column, width, flex} = colInfo
+      acc[column.name] = { width, flex}
+      return acc
+    }, {})
+
+    const columns = state.columns.map(c => {
+      return Object.assign({}, c, colsMap[c.name])
+    })
+
+    setState(Object.assign({}, state, {
+      columns,
+      reservedViewportWidth
+    }))
+  }
+
+  const onLoadingChange = (loading) => {
+    setState(Object.assign({}, state, { loading }));
+  }
+
+  const loadData = () => {
+    getDevices();
+  };
 
   return (
     <Fragment>
       <ContentBox className="locon">
+      <Button onClick={loadData}>Pobierz</Button>
+      <Button onClick={saveState}>Save State</Button>
+      <Button onClick={restoreState}>Load State</Button>
         <ReactDataGrid
-          idProperty="id"
+          idProperty="uniqueId"
           style={gridStyle}
           defaultFilterValue={filterValue}
-          columns={columns}
-          dataSource={dataSource}
+          columns={state.columns}
+          sortInfo={state.sortInfo}
+          columnOrder={state.columnOrder}
+          dataSource={gridState}
           pagination
           defaultLimit={4}
+          reservedViewportWidth={state.reservedViewportWidth}
+          onSortInfoChange={onSortInfoChange}
+          onBatchColumnResize={onBatchColumnResize}
+          onColumnOrderChange={onColumnOrderChange}
+          onColumnVisibleChange={onColumnVisibleChange}
+          onLoadingChange={onLoadingChange}
         />
       </ContentBox>
     </Fragment>

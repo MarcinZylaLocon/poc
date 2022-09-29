@@ -72,7 +72,6 @@ const Analytics = () => {
               />
             </Card>
 
-            <UpgradeCard />
             <Campaigns />
           </Grid>
         </Grid>
